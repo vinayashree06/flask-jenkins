@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Task Manager</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            text-align: center;
+        }
+
+        .container {
+            margin-top: 40px;
+        }
+
+        input, select {
+            padding: 10px;
+            margin: 10px;
+            border-radius: 5px;
+            border: none;
+        }
+
+        button {
+            padding: 10px;
+            background: #ff7b00;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .task {
+            background: white;
+            color: black;
+            margin: 10px auto;
+            padding: 15px;
+            width: 300px;
+            border-radius: 10px;
+        }
+
+        .completed {
+            text-decoration: line-through;
+            color: gray;
+        }
+
+        .actions a {
+            margin: 5px;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            color: white;
+        }
+
+        .complete-btn {
+            background: green;
+        }
+
+        .delete-btn {
+            background: red;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🚀 Task Manager (Flask + MySQL)</h1>
+
+    <form action="/add" method="POST">
+        <input type="text" name="title" placeholder="Enter task" required>
+
+        <select name="priority">
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+        </select>
+
+        <button>Add Task</button>
+    </form>
+
+    <h2>Your Tasks</h2>
+
+    {% for task in tasks %}
+        <div class="task">
+            <h3 class="{{ 'completed' if task[3]=='Completed' else '' }}">
+                {{ task[1] }}
+            </h3>
+
+            <p>Priority: <b>{{ task[2] }}</b></p>
+            <p>Status: {{ task[3] }}</p>
+
+            <div class="actions">
+                {% if task[3] != 'Completed' %}
+                    <a href="/complete/{{ task[0] }}" class="complete-btn">Complete</a>
+                {% endif %}
+                <a href="/delete/{{ task[0] }}" class="delete-btn">Delete</a>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+</body>
+</html>
